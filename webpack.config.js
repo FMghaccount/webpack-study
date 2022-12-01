@@ -1,7 +1,8 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 // const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin")
 
 module.exports = {
     mode: 'production',
@@ -78,7 +79,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name][contenthash].css",
             chunkFilename: "[id][contenthash].css"
-        })
+        }),
+        new WebpackManifestPlugin(),
         // new WebpackBundleAnalyzer()
     ]
 }
