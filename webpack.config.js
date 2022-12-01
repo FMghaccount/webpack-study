@@ -1,9 +1,10 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 // const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
         bundle: path.resolve(__dirname, 'src/index.js'),
     },
@@ -27,9 +28,31 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                // test: /\.(s*)css$/,
+                // exclude: /node_modules/,
+                // use: [
+                //     {
+                //         loader: "sass-loader",
+                //         options: {
+                //             options: { outputPath: 'dist', name: '[name].min.css' }
+                //         }
+                //     }, 'css-loader', 'sass-loader'
+                // ],
+                test: /\.s?css$/,
+                exclude: /node_modules/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    // options: {
+                    //     options: { outputPath: 'dist', name: '[name].min.css' }
+                    // }
+                    "css-loader",
+                    "sass-loader"
+                ]
             },
+            // {
+            //     test: /\.scss$/,
+            //     use: ['style-loader', 'css-loader', 'sass-loader'],
+            // },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -52,6 +75,10 @@ module.exports = {
             filename: 'index.html',
             template: 'src/template.html'
         }),
+        new MiniCssExtractPlugin({
+            filename: "[name][contenthash].css",
+            chunkFilename: "[id][contenthash].css"
+        })
         // new WebpackBundleAnalyzer()
     ]
 }
